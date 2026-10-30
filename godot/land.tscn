@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://cxi0g7y0rcsfb"]
+
+[ext_resource type="Script" uid="uid://e1a854wwle4e" path="res://Land.cs" id="1_dwsah"]
+[ext_resource type="PackedScene" uid="uid://4r0ucv8eaqmp" path="res://assets/models/terrain/terrain.gltf" id="2_pl1wv"]
+[ext_resource type="PackedScene" uid="uid://c0qkh4w43doxt" path="res://player.tscn" id="3_iooh7"]
+[ext_resource type="Script" uid="uid://bl05ejr7s8wl4" path="res://EnemiesManager.cs" id="4_iooh7"]
+[ext_resource type="PackedScene" uid="uid://cvv5cvorlssl2" path="res://top_enemy.tscn" id="5_nfuxm"]
+[ext_resource type="PackedScene" uid="uid://dqt3gen6ag1u3" path="res://side_enemy.tscn" id="6_atr1s"]
+
+[node name="Land" type="Node" node_paths=PackedStringArray("LandTerrain", "SecondLandTerrain", "Camera", "Player")]
+script = ExtResource("1_dwsah")
+LandTerrain = NodePath("terrain")
+SecondLandTerrain = NodePath("terrain2")
+Camera = NodePath("Camera3D")
+Player = NodePath("Player")
+
+[node name="terrain" parent="." instance=ExtResource("2_pl1wv")]
+transform = Transform3D(-0.000174846, 0, -4000, 0, 4000, 0, 4000, 0, -0.000174846, 0, -800, 0)
+
+[node name="terrain2" parent="." instance=ExtResource("2_pl1wv")]
+transform = Transform3D(-0.000174846, 0, -4000, 0, 4000, 0, 4000, 0, -0.000174846, 0, -800, -32000)
+
+[node name="Player" parent="." instance=ExtResource("3_iooh7")]
+transform = Transform3D(-20, 0, -1.74846e-06, 0, 20, 0, 1.74846e-06, 0, -20, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(20, 0, 0, 0, -8.74228e-07, 20, 0, -20, -8.74228e-07, 0, 1000, 0)
+projection = 1
+size = 1400.0
+far = 40000.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.25038, 0.968148, 0, -0.968148, -0.25038, 0, 0, 0)
+
+[node name="EnemiesManager" type="Node" parent="." node_paths=PackedStringArray("SpawnTimer", "BenchmarkTimer")]
+script = ExtResource("4_iooh7")
+TopEnemyScene = ExtResource("5_nfuxm")
+SideEnemyScene = ExtResource("6_atr1s")
+SpawnTimer = NodePath("Timer")
+BenchmarkTimer = NodePath("Timer2")
+
+[node name="Timer" type="Timer" parent="EnemiesManager"]
+wait_time = 2.0
+autostart = true
+
+[node name="Timer2" type="Timer" parent="EnemiesManager"]
+wait_time = 10.0
+autostart = true
+
+[node name="PerfMonitor" type="PerfMonitor" parent="."]
+wait_time = 0.25
+autostart = true
